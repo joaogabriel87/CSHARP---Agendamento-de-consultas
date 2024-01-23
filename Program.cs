@@ -1,13 +1,18 @@
+using System.Globalization;
 using System.Text;
+using Agendamento;
 using Agendamento.Context;
 using Agendamento.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddScoped<AgendamentoContext, AgendamentoContext>();
-builder.Services.AddControllers();
+
+builder.Services.AddDbContext<AgendamentoContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ConexaoPadrao")));
+
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -28,21 +33,27 @@ builder.Services.AddAuthentication(x =>
 builder.Services.AddAuthorization();
 builder.Services.AddTransient<TokenService>();
 
-// Adicione outros serviços ao contêiner.
-// Saiba mais sobre a configuração do Swagger/OpenAPI em https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en-US"),
+    SupportedCultures = new List<CultureInfo> { new CultureInfo("en-US") },
+    SupportedUICultures = new List<CultureInfo> { new CultureInfo("en-US") }
+});
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Agendamento");
+});
+
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
-// Configure o pipeline de solicitação HTTP.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
 app.UseHttpsRedirection();
 app.MapControllers();

@@ -14,21 +14,13 @@ namespace Agendamento.Context
 
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=Agendamento;Integrated Security=SSPI;TrustServerCertificate=True");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder
             .Entity<Specialty>()
             .Property(e => e.Especialidade)
             .HasConversion(
-                v => (int)v,            // Convertendo enum para int
+                v => (int)v,
                 v => (Specialty.NumEspe)Enum.ToObject(typeof(Specialty.NumEspe), v));
         }
         public DbSet<Consultas> ConsultasDb { get; set; }
