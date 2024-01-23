@@ -1,10 +1,13 @@
 using System.Text;
+using Agendamento.Context;
 using Agendamento.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<AgendamentoContext, AgendamentoContext>();
+builder.Services.AddControllers();
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

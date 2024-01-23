@@ -20,7 +20,7 @@ namespace Agendamento.Services
             var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = GenereteClaims(user),
+                Subject = GenerateClaims(user),
                 SigningCredentials = credentials,
                 Expires = DateTime.UtcNow.AddHours(2),
             };
@@ -30,16 +30,18 @@ namespace Agendamento.Services
             return handler.WriteToken(token);
         }
 
-        private static ClaimsIdentity GenereteClaims(User user)
+        private static ClaimsIdentity GenerateClaims(User user)
         {
-            var ci = new ClaimsIdentity();
-            ci.AddClaim(new Claim(ClaimTypes.Name, user.Email));
-            foreach (var Roles in user.Roles)
+            var claims = new List<Claim>
+    {
+        new Claim(ClaimTypes.Name, user.Email),
+        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), // Adicionar ID do usuário como claim, se necessário
+        new Claim(ClaimTypes.Role, user.Roles.ToString()), // Adicionar a role como claim
+    };
 
-                ci.AddClaim(new Claim(ClaimTypes.Role, Roles));
+            var ci = new ClaimsIdentity(claims, "custom", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
 
             return ci;
-
         }
     }
 }
