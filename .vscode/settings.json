@@ -1,0 +1,5 @@
+{
+  "files.autoSave": "onWindowChange",
+  "workbench.settings.useSplitJSON": true,
+  "json.schemas": []
+}
