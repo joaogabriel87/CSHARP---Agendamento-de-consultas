@@ -4,6 +4,7 @@ using Agendamento.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Agendamento.Migrations
 {
     [DbContext(typeof(AgendamentoContext))]
-    partial class AgendamentoContextModelSnapshot : ModelSnapshot
+    [Migration("20240124215531_TesteOne")]
+    partial class TesteOne
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,13 +153,17 @@ namespace Agendamento.Migrations
 
             modelBuilder.Entity("Agendamento.Models.Consultas", b =>
                 {
-                    b.HasOne("Agendamento.Models.Medico", null)
+                    b.HasOne("Agendamento.Models.Medico", "Medico")
                         .WithMany("Consultas")
-                        .HasForeignKey("MedicoId");
+                        .HasForeignKey("MedicoId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Agendamento.Models.Paciente", "Paciente")
                         .WithMany("Consultas")
-                        .HasForeignKey("PacienteId");
+                        .HasForeignKey("PacienteId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Medico");
 
                     b.Navigation("Paciente");
                 });

@@ -35,13 +35,16 @@ namespace Agendamento.Services
             var claims = new List<Claim>
     {
         new Claim(ClaimTypes.Name, user.Email),
-        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), // Adicionar ID do usuário como claim, se necessário
-        new Claim(ClaimTypes.Role, user.Roles.ToString()), // Adicionar a role como claim
+        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
     };
+
+
+            claims.Add(new Claim(ClaimTypes.Role, user.Role.ToString()));
 
             var ci = new ClaimsIdentity(claims, "custom", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
 
             return ci;
         }
+
     }
 }

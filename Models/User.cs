@@ -9,13 +9,19 @@ namespace Agendamento.Models
     public enum UserRole
     {
         Admin,
-        RegularUser
+        Paciente,
+        Medico
     }
+
     public class User
     {
         public int Id { get; set; }
         public string Email { get; set; }
         public string Senha { get; set; }
-        public UserRole Roles { get; set; }
+        public UserRole Role { get; set; }
+
+        // Relacionamentos
+        public Paciente Paciente { get; set; }
+        public Medico Medico { get; set; }
     }
 }
