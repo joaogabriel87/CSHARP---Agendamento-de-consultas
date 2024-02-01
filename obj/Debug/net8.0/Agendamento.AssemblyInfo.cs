@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Agendamento")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f7f3a59c6ae12b008bd9a37871c8f91ffeb3fbb2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+91e7d8f369cd6060a878bfc163dd2a0f82826d02")]
 [assembly: System.Reflection.AssemblyProductAttribute("Agendamento")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Agendamento")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
