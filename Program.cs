@@ -24,14 +24,17 @@ builder.Services.AddAuthentication(x =>
     x.SaveToken = true;
     x.TokenValidationParameters = new TokenValidationParameters
     {
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["PrivateKey"])),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.privateKey)),
         ValidateIssuer = false,
         ValidateAudience = false
     };
 });
 
+
 builder.Services.AddAuthorization();
+builder.Services.AddControllers();
 builder.Services.AddTransient<TokenService>();
+builder.Services.AddTransient<UserServices>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

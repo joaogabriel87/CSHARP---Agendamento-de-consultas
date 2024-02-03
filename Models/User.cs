@@ -19,6 +19,7 @@ namespace Agendamento.Models
     {
         public int Id { get; set; }
         [Required]
+        [MinLength(4)]
         public string Nome { get; set; }
         [Required]
         public string Telefone { get; set; }
