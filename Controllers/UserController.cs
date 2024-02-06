@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Agendamento.DTOs;
 using Agendamento.Models;
 using Agendamento.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +33,21 @@ namespace Agendamento.Controllers
             catch (Exception ex)
             {
                 throw new Exception($"Erro ao criar usuario {ex.Message}");
+            }
+        }
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] UsuarioDTO usuariodto)
+        {
+            try
+            {
+                var user = await _services.Login(usuariodto.Email, usuariodto.Senha);
+
+                return Ok(new { userId = user.Id });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
         }
     }
