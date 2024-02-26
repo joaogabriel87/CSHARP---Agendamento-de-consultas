@@ -2,8 +2,10 @@ using System.Globalization;
 using System.Text;
 using Agendamento;
 using Agendamento.Context;
+using Agendamento.Models;
 using Agendamento.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -29,7 +31,13 @@ builder.Services.AddAuthentication(x =>
         ValidateAudience = false
     };
 });
-
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("admin", policy =>
+    policy.RequireRole(UserRole.Admin.ToString()));
+    options.AddPolicy("paciente", policy =>
+    policy.RequireRole(UserRole.Paciente.ToString()));
+});
 
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
