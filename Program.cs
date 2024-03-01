@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Text;
-using Agendamento;
-using Agendamento.Context;
+using Agendamento.Date;
+
 using Agendamento.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -10,8 +10,10 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<AgendamentoContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ConexaoPadrao")));
+
+builder.Services.AddDbContext<DateContext>(
+    o => o.UseSqlServer(builder.Configuration.GetConnectionString("DateContext"))
+);
 
 builder.Services.AddAuthentication(x =>
 {
