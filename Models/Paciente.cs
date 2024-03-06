@@ -11,7 +11,7 @@ namespace Agendamento.Models
         [Key]
         public int CPF { get; set; }
         public string NomeCompleto { get; set; }
-        public string Email { get; set; }
+        public User Email { get; set; }
         public string Telefone { get; set; }
     }
 }
