@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Text;
+using Agendamento;
 using Agendamento.Date;
 
 using Agendamento.Services;
@@ -42,21 +43,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
-app.UseRequestLocalization(new RequestLocalizationOptions
-{
-    DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en-US"),
-    SupportedCultures = new List<CultureInfo> { new CultureInfo("en-US") },
-    SupportedUICultures = new List<CultureInfo> { new CultureInfo("en-US") }
-});
-
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Agendamento");
-});
-
-app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
