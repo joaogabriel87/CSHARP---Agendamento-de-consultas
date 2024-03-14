@@ -46,7 +46,7 @@ namespace Agendamento.Repositories
                 throw new Exception("Paciente não existe");
             }
 
-            PacienteExist.NomeCompleto = paciente.NomeCompleto;
+
             PacienteExist.Email = paciente.Email;
             PacienteExist.Telefone = paciente.Telefone;
 

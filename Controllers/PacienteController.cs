@@ -45,12 +45,18 @@ namespace Agendamento.Controllers
             }
         }
         [HttpPut("Editar/{cpf}")]
-        public async Task<IActionResult> EditarPaciente(string cpf, [FromBody] Paciente paciente)
+        public async Task<IActionResult> EditarPaciente(string cpf, [FromBody] PacienteDTO pacienteDTO)
         {
             if (cpf.ToString().Length != 11 || cpf == null)
             {
                 return BadRequest("Cpf esta invalido");
             }
+
+            var paciente = new Paciente
+            {
+                Email = pacienteDTO.Email,
+                Telefone = pacienteDTO.Telefone
+            };
             try
             {
                 await _repository.Editar(cpf, paciente);
