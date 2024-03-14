@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Agendamento.Migrations
 {
     /// <inheritdoc />
-    public partial class InitalCreate : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,8 +29,7 @@ namespace Agendamento.Migrations
                 name: "PacienteDB",
                 columns: table => new
                 {
-                    CPF = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CPF = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     NomeCompleto = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Telefone = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -45,40 +45,32 @@ namespace Agendamento.Migrations
                 {
                     Protocolo = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DataConsulta = table.Column<string>(type: "nvarchar(48)", nullable: false),
-                    PacienteCPF = table.Column<int>(type: "int", nullable: true),
-                    MedicoCRM = table.Column<int>(type: "int", nullable: true),
-                    EspecialidadeCRM = table.Column<int>(type: "int", nullable: true)
+                    DataConsulta = table.Column<DateTime>(type: "datetime", nullable: false),
+                    PacienteId = table.Column<int>(type: "int", nullable: false),
+                    PacienteCPF = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MedicoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ConsultaDB", x => x.Protocolo);
                     table.ForeignKey(
-                        name: "FK_ConsultaDB_MedicoDB_EspecialidadeCRM",
-                        column: x => x.EspecialidadeCRM,
+                        name: "FK_ConsultaDB_MedicoDB_MedicoId",
+                        column: x => x.MedicoId,
                         principalTable: "MedicoDB",
-                        principalColumn: "CRM");
-                    table.ForeignKey(
-                        name: "FK_ConsultaDB_MedicoDB_MedicoCRM",
-                        column: x => x.MedicoCRM,
-                        principalTable: "MedicoDB",
-                        principalColumn: "CRM");
+                        principalColumn: "CRM",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ConsultaDB_PacienteDB_PacienteCPF",
                         column: x => x.PacienteCPF,
                         principalTable: "PacienteDB",
-                        principalColumn: "CPF");
+                        principalColumn: "CPF",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ConsultaDB_EspecialidadeCRM",
+                name: "IX_ConsultaDB_MedicoId",
                 table: "ConsultaDB",
-                column: "EspecialidadeCRM");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ConsultaDB_MedicoCRM",
-                table: "ConsultaDB",
-                column: "MedicoCRM");
+                column: "MedicoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ConsultaDB_PacienteCPF",

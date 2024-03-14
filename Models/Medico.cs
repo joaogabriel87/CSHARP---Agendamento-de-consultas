@@ -12,5 +12,6 @@ namespace Agendamento.Models
         public int CRM { get; set; }
         public string NomeCompleto { get; set; }
         public string Especialidade { get; set; }
+        public ICollection<Consulta> Consultas { get; set; }
     }
 }

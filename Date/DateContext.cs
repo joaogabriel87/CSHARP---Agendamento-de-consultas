@@ -9,6 +9,11 @@ namespace Agendamento.Date
 {
     public class DateContext : DbContext
     {
+
+        public DateContext(DbContextOptions<DateContext> options) : base(options)
+        {
+
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Server=DESKTOP-E5MH590;Database=Agendamento;Integrated Security=SSPI;TrustServerCertificate=True");
@@ -16,10 +21,11 @@ namespace Agendamento.Date
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder
-            .Entity<Consulta>()
+            modelBuilder.Entity<Consulta>()
             .Property(e => e.DataConsulta)
-            .HasConversion<string>();
+            .HasColumnType("datetime");
+
+
         }
 
         public DbSet<Paciente> PacienteDB { get; set; }

@@ -32,7 +32,7 @@ namespace Agendamento.Repositories
             }
 
             ConsultaExist.DataConsulta = consulta.DataConsulta;
-            ConsultaExist.Especialidade = consulta.Especialidade;
+
 
             await _context.SaveChangesAsync();
         }

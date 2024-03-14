@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Text;
 using Agendamento;
 using Agendamento.Date;
-
+using Agendamento.Repositories;
 using Agendamento.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +15,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<DateContext>(
     o => o.UseSqlServer(builder.Configuration.GetConnectionString("DateContext"))
 );
+
+builder.Services.AddScoped<DateContext, DateContext>();
+builder.Services.AddTransient<PacienteRepository>();
+builder.Services.AddTransient<ConsultaRepository>();
+builder.Services.AddTransient<MedicoRepository>();
+builder.Services.AddTransient<TokenService>();
 
 builder.Services.AddAuthentication(x =>
 {

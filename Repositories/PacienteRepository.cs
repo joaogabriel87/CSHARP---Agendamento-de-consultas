@@ -18,7 +18,7 @@ namespace Agendamento.Repositories
             _context = context;
         }
 
-        public async Task<IQueryable<Consulta>> BuscarConsulta(int cpf)
+        public async Task<IQueryable<Consulta>> BuscarConsulta(string cpf)
         {
             var paciente = await _context.PacienteDB.AnyAsync(p => p.CPF == cpf);
 
@@ -37,7 +37,7 @@ namespace Agendamento.Repositories
 
         }
 
-        public async Task Editar(int cpf, Paciente paciente)
+        public async Task Editar(string cpf, Paciente paciente)
         {
             var PacienteExist = await _context.PacienteDB.FirstOrDefaultAsync(p => p.CPF == cpf);
 
@@ -48,7 +48,6 @@ namespace Agendamento.Repositories
 
             PacienteExist.NomeCompleto = paciente.NomeCompleto;
             PacienteExist.Email = paciente.Email;
-            PacienteExist.CPF = paciente.CPF;
             PacienteExist.Telefone = paciente.Telefone;
 
             await _context.SaveChangesAsync();

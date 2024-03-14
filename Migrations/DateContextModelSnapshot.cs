@@ -30,29 +30,22 @@ namespace Agendamento.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Protocolo"));
 
-                    b.Property<int?>("CPF1")
+                    b.Property<DateTime>("DataConsulta")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("MedicoId")
                         .HasColumnType("int");
 
-                    b.Property<string>("DataConsulta")
+                    b.Property<string>("PacienteCPF")
                         .IsRequired()
-                        .HasColumnType("nvarchar(48)");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("EspecialidadeCRM")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("MedicoCRM")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PacienteCPF")
+                    b.Property<int>("PacienteId")
                         .HasColumnType("int");
 
                     b.HasKey("Protocolo");
 
-                    b.HasIndex("CPF1");
-
-                    b.HasIndex("EspecialidadeCRM");
-
-                    b.HasIndex("MedicoCRM");
+                    b.HasIndex("MedicoId");
 
                     b.HasIndex("PacienteCPF");
 
@@ -80,14 +73,11 @@ namespace Agendamento.Migrations
 
             modelBuilder.Entity("Agendamento.Models.Paciente", b =>
                 {
-                    b.Property<int>("CPF")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("CPF")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CPF"));
-
-                    b.Property<int?>("EmailId")
-                        .HasColumnType("int");
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NomeCompleto")
                         .HasColumnType("nvarchar(max)");
@@ -97,70 +87,36 @@ namespace Agendamento.Migrations
 
                     b.HasKey("CPF");
 
-                    b.HasIndex("EmailId");
-
                     b.ToTable("PacienteDB");
-                });
-
-            modelBuilder.Entity("Agendamento.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Roles")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Senha")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("Agendamento.Models.Consulta", b =>
                 {
-                    b.HasOne("Agendamento.Models.Paciente", "CPF")
-                        .WithMany()
-                        .HasForeignKey("CPF1");
-
-                    b.HasOne("Agendamento.Models.Medico", "Especialidade")
-                        .WithMany()
-                        .HasForeignKey("EspecialidadeCRM");
-
                     b.HasOne("Agendamento.Models.Medico", "Medico")
-                        .WithMany()
-                        .HasForeignKey("MedicoCRM");
+                        .WithMany("Consultas")
+                        .HasForeignKey("MedicoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Agendamento.Models.Paciente", "Paciente")
-                        .WithMany()
-                        .HasForeignKey("PacienteCPF");
-
-                    b.Navigation("CPF");
-
-                    b.Navigation("Especialidade");
+                        .WithMany("Consultas")
+                        .HasForeignKey("PacienteCPF")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Medico");
 
                     b.Navigation("Paciente");
                 });
 
+            modelBuilder.Entity("Agendamento.Models.Medico", b =>
+                {
+                    b.Navigation("Consultas");
+                });
+
             modelBuilder.Entity("Agendamento.Models.Paciente", b =>
                 {
-                    b.HasOne("Agendamento.Models.User", "Email")
-                        .WithMany()
-                        .HasForeignKey("EmailId");
-
-                    b.Navigation("Email");
+                    b.Navigation("Consultas");
                 });
 #pragma warning restore 612, 618
         }
