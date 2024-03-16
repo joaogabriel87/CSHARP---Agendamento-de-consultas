@@ -52,13 +52,13 @@ namespace Agendamento.Controllers
                 return BadRequest("Cpf esta invalido");
             }
 
-            var paciente = new Paciente
-            {
-                Email = pacienteDTO.Email,
-                Telefone = pacienteDTO.Telefone
-            };
             try
             {
+                var paciente = new Paciente
+                {
+                    Email = pacienteDTO.Email,
+                    Telefone = pacienteDTO.Telefone
+                };
                 await _repository.Editar(cpf, paciente);
                 return Ok("Editado com sucesso");
             }

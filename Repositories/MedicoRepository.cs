@@ -26,12 +26,12 @@ namespace Agendamento.Repositories
                 throw new Exception("CRM já cadastrado");
             }
 
-            _context.Add(medico);
+            await _context.AddAsync(medico);
             await _context.SaveChangesAsync();
             return medico;
         }
 
-        public async Task<IQueryable<Consulta>> ConsultaPorEspecialidade(int crm)
+        public async Task<IQueryable<Consulta>> ConsultaPorEspecialidade(string crm)
         {
             var medico = await _context.MedicoDB.FirstOrDefaultAsync(x => x.CRM == crm);
 
@@ -49,7 +49,7 @@ namespace Agendamento.Repositories
             );
         }
 
-        public async Task Editar(int crm, Medico medico)
+        public async Task Editar(string crm, Medico medico)
         {
             var MedicoExist = await _context.MedicoDB.FirstOrDefaultAsync(x => x.CRM == crm);
 

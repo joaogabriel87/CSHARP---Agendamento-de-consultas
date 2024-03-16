@@ -9,7 +9,6 @@ namespace Agendamento.Models
     public class Consulta
     {
 
-        [Key]
         public int Protocolo { get; set; }
         public DateTime DataConsulta { get; set; }
         public int PacienteId { get; set; }

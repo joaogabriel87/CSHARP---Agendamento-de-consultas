@@ -15,8 +15,7 @@ namespace Agendamento.Migrations
                 name: "MedicoDB",
                 columns: table => new
                 {
-                    CRM = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CRM = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     NomeCompleto = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Especialidade = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -48,14 +47,15 @@ namespace Agendamento.Migrations
                     DataConsulta = table.Column<DateTime>(type: "datetime", nullable: false),
                     PacienteId = table.Column<int>(type: "int", nullable: false),
                     PacienteCPF = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    MedicoId = table.Column<int>(type: "int", nullable: false)
+                    MedicoId = table.Column<int>(type: "int", nullable: false),
+                    MedicoCRM = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ConsultaDB", x => x.Protocolo);
                     table.ForeignKey(
-                        name: "FK_ConsultaDB_MedicoDB_MedicoId",
-                        column: x => x.MedicoId,
+                        name: "FK_ConsultaDB_MedicoDB_MedicoCRM",
+                        column: x => x.MedicoCRM,
                         principalTable: "MedicoDB",
                         principalColumn: "CRM",
                         onDelete: ReferentialAction.Cascade);
@@ -68,9 +68,9 @@ namespace Agendamento.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ConsultaDB_MedicoId",
+                name: "IX_ConsultaDB_MedicoCRM",
                 table: "ConsultaDB",
-                column: "MedicoId");
+                column: "MedicoCRM");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ConsultaDB_PacienteCPF",

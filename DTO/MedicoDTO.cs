@@ -1,17 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Agendamento.Models
+namespace Agendamento.DTO
 {
-    public class Medico
+    public class MedicoDTO
     {
-        [Key]
         public string CRM { get; set; }
         public string NomeCompleto { get; set; }
         public string Especialidade { get; set; }
-        public ICollection<Consulta> Consultas { get; set; }
     }
 }

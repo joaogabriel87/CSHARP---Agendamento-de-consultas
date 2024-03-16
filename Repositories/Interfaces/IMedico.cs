@@ -9,8 +9,8 @@ namespace Agendamento.Repositories.Interfaces
     public interface IMedico
     {
         Task<Medico> Cadastro(Medico medico);
-        Task Editar(int crm, Medico medico);
-        Task<IQueryable<Consulta>> ConsultaPorEspecialidade(int crm);
+        Task Editar(string crm, Medico medico);
+        Task<IQueryable<Consulta>> ConsultaPorEspecialidade(string crm);
     }
 
 

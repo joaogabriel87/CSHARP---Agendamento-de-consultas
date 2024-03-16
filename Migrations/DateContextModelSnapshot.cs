@@ -33,6 +33,10 @@ namespace Agendamento.Migrations
                     b.Property<DateTime>("DataConsulta")
                         .HasColumnType("datetime");
 
+                    b.Property<string>("MedicoCRM")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("MedicoId")
                         .HasColumnType("int");
 
@@ -45,7 +49,7 @@ namespace Agendamento.Migrations
 
                     b.HasKey("Protocolo");
 
-                    b.HasIndex("MedicoId");
+                    b.HasIndex("MedicoCRM");
 
                     b.HasIndex("PacienteCPF");
 
@@ -54,11 +58,8 @@ namespace Agendamento.Migrations
 
             modelBuilder.Entity("Agendamento.Models.Medico", b =>
                 {
-                    b.Property<int>("CRM")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CRM"));
+                    b.Property<string>("CRM")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Especialidade")
                         .HasColumnType("nvarchar(max)");
@@ -94,7 +95,7 @@ namespace Agendamento.Migrations
                 {
                     b.HasOne("Agendamento.Models.Medico", "Medico")
                         .WithMany("Consultas")
-                        .HasForeignKey("MedicoId")
+                        .HasForeignKey("MedicoCRM")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
